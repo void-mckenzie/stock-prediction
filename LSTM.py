@@ -23,6 +23,8 @@ dat = pd.read_csv("data/nifty.csv",index_col=False)
 
 dat['hl']=dat['High']-dat['Low']
 
+dat=dat.reindex(index=dat.index[::-1])
+
 #training_set = dat.iloc[0:int((4862)*0.8),4]
 training_set = dat.iloc[0:int((4862)*0.8),1:6]
 
@@ -53,7 +55,7 @@ regressor.add(Dropout(0.1))
 regressor.add(LSTM(units = 40,return_sequences = False))
 regressor.add(Dense(units = 1))
 regressor.compile(optimizer = 'adam', loss = 'mean_squared_error')
-regressor.fit(X_train, y_train, epochs = 5, batch_size = 32)
+regressor.fit(X_train, y_train, epochs = 25, batch_size = 32)
 
 
 test_set = dat.iloc[int((4862)*0.8):,1:6]
